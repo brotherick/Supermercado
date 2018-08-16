@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title><%= title %></title>
+    <% include partials/head %>
+</head>
+<body class="login">
+<header class="header1">
+    <!-- Header desktop -->
+    <div class="container-menu-header">
+        <div class="topbar">
+            <!-- <div class="topbar-social">
+              <a href="#" class="topbar-social-item fa fa-facebook"></a>
+              <a href="#" class="topbar-social-item fa fa-instagram"></a>
+              <a href="#" class="topbar-social-item fa fa-pinterest-p"></a>
+              <a href="#" class="topbar-social-item fa fa-snapchat-ghost"></a>
+              <a href="#" class="topbar-social-item fa fa-youtube-play"></a>
+            </div> -->
+
+            <span class="topbar-child1">
+          ¡Envio gratis al gastar Q200 o más!
+        </span>
+        </div>
+        <div class="wrap_header">
+            <!-- Logo -->
+            <a href="/" class="logo">
+                <img src="images/icons/supermarket.png" alt="IMG-LOGO">
+            </a>
+
+            <!-- Menu -->
+            <div class="wrap_menu">
+                <nav class="menu">
+                    <ul class="main_menu">
+                        <li>
+                            <a href="profile">Inicio</a>
+                        </li>
+                        <li>
+                            <a href="categorias">Categorias</a>
+                        </li>
+
+                        <!--<li>-->
+                            <!--<a href="cart.html">Articulos</a>-->
+                        <!--</li>-->
+
+                        <!--<li>-->
+                            <!--<a href="blog.html">Proveedores</a>-->
+                        <!--</li>-->
+                    </ul>
+                </nav>
+            </div>
+            <div class="container"><br></div>
+
+            <div class="container">
+        <h1><%= title %></h1>
+        <form action="/add" method="post">
+            <legend>
+                Agrega una categoria
+            </legend>
+            <div class="form-group">
+                <input type="text" id="title" class="form-control" name="title">
+            </div>
+            <button class="btn btn-success">
+                AGREGAR
+            </button>
+        </form>
+        <hr>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Title</th>
+                    <th>Operations</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for (var i = 0; i < categorias.length; i++){ var a = i+1; %>
+                <tr>
+                    <td>
+                        <%= i + 1 %>
+                    </td>
+                    <td>
+                        <strong>
+                            <%= categorias[i].title %>
+                        </strong>
+                    </td>
+                    <td>
+                        <input type="hidden" id="id_categoria<%= a %>" value="<%= categorias[i]._id %>">
+                        <button type="button" onclick="getTitle(<%= a %>)" id="title1<%= a %>" name="<%= categorias[i].title %>" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                            Editar
+                        </button>
+                        <a class="btn btn-danger" href="/delete/<%= categorias[i]._id %>">Delete</a>
+                    </td>
+                </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        function getTitle(i){
+            var name = $("#title1"+i).attr("name");
+            $('#title2').val(name);
+            var id = $("#id_categoria"+i).attr("value");
+            document.getElementById('title').focus();
+            document.forms['form'].action = '/turn/'+id;
+
+        }
+        $(document).ready(function(){
+            $('#exampleModal').on('shown.bs.modal', function () {
+                $('#title2').focus();
+            })
+
+
+        });
+    </script>
+    <!--modal-->
+     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+         <div class="modal-dialog" role="document">
+             <div class="modal-content">
+                 <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edita la categoria seleccionada</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                 </div>
+                <div class="modal-body">
+                    <form action="" id="form" name="form" method="post">
+                         <div class="form-group">
+                            <input value="" type="text" id="title2" class="form-control" name="title">
+                         </div>
+                         <button class="btn btn-primary">
+                            Guardar
+                         </button>
+                    </form>
+                </div>
+             </div>
+         </div>
+     </div>
+</body>
+</html>
+
